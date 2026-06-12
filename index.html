@@ -29,6 +29,10 @@
           aria-label="Abrir carta de amor"
         >
           <div class="envelope" id="envelope">
+            <div class="envelope-opening" aria-hidden="true">
+              <div class="envelope-opening-face envelope-opening-face--front"></div>
+              <div class="envelope-opening-face envelope-opening-face--back"></div>
+            </div>
             <div class="envelope-flap"></div>
             <div class="letter-peek"></div>
           </div>
@@ -52,7 +56,9 @@
               Você aceita continuar sendo a mulher da minha vida?
             </p>
             <div class="buttons">
-              <button class="btn-yes" id="btnSim" type="button">Claro que sim! 💕</button>
+              <button class="btn-yes" id="btnSim" type="button">
+                Claro que sim! <span class="btn-yes-heart" aria-hidden="true">♥</span>
+              </button>
               <button class="btn-no" id="btnNao" type="button">Hmm... não</button>
             </div>
           </div>

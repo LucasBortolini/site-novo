@@ -60,7 +60,8 @@ function preencherConteudo() {
   });
 
   document.getElementById("pergunta").textContent = CONFIG.pergunta;
-  document.getElementById("btnSim").textContent = `${CONFIG.botaoSim} 💕`;
+  document.getElementById("btnSim").innerHTML =
+    `${CONFIG.botaoSim} <span class="btn-yes-heart" aria-hidden="true">♥</span>`;
   document.getElementById("mensagemFinal").textContent = CONFIG.mensagemFinal;
   document.getElementById("mensagemFinalExtra").textContent = CONFIG.mensagemFinalExtra;
   document.getElementById("assinatura").textContent = `— VSFD eu te amo, ${CONFIG.seuNome}`;
