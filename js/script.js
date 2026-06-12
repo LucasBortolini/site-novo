@@ -103,20 +103,119 @@ function configurarBotoes() {
   const final = document.getElementById("final");
   const heartsContainer = document.getElementById("hearts");
 
-  function moverNao() {
-    const x = Math.random() * 160 - 80;
-    const y = Math.random() * 80 - 40;
+  const DESLOC_MAX_X = 110;
+  const DESLOC_MAX_Y = 65;
+  const DISTANCIA_MINIMA_CURSOR = 95;
+  const RAIO_PROXIMIDADE = 80;
+  const COOLDOWN_MS = 100;
+
+  let ancora = null;
+  let ultimoMovimento = 0;
+  let rafProximidade = null;
+
+  function limitar(valor, minimo, maximo) {
+    return Math.min(Math.max(valor, minimo), maximo);
+  }
+
+  function obterAncora() {
+    if (ancora) return ancora;
+
+    const rect = btnNao.getBoundingClientRect();
+    ancora = {
+      centroX: rect.left + rect.width / 2,
+      centroY: rect.top + rect.height / 2,
+    };
+    return ancora;
+  }
+
+  function calcularDeslocamento(mouseX, mouseY) {
+    const base = obterAncora();
+    let melhor = null;
+    let maiorDistancia = -1;
+
+    for (let tentativa = 0; tentativa < 24; tentativa += 1) {
+      const x = (Math.random() * 2 - 1) * DESLOC_MAX_X;
+      const y = (Math.random() * 2 - 1) * DESLOC_MAX_Y;
+      const centroX = base.centroX + x;
+      const centroY = base.centroY + y;
+      const distancia = Math.hypot(centroX - mouseX, centroY - mouseY);
+
+      if (distancia >= DISTANCIA_MINIMA_CURSOR && distancia > maiorDistancia) {
+        maiorDistancia = distancia;
+        melhor = { x, y };
+      }
+    }
+
+    if (melhor) return melhor;
+
+    let dx = base.centroX - mouseX;
+    let dy = base.centroY - mouseY;
+    const comprimento = Math.hypot(dx, dy) || 1;
+    dx = (dx / comprimento) * DESLOC_MAX_X;
+    dy = (dy / comprimento) * DESLOC_MAX_Y;
+
+    return {
+      x: limitar(dx, -DESLOC_MAX_X, DESLOC_MAX_X),
+      y: limitar(dy, -DESLOC_MAX_Y, DESLOC_MAX_Y),
+    };
+  }
+
+  function cursorPertoDoBotao(mouseX, mouseY) {
+    const rect = btnNao.getBoundingClientRect();
+    const centroX = rect.left + rect.width / 2;
+    const centroY = rect.top + rect.height / 2;
+    return Math.hypot(mouseX - centroX, mouseY - centroY) < RAIO_PROXIMIDADE;
+  }
+
+  function moverNao(event) {
+    const agora = Date.now();
+    if (agora - ultimoMovimento < COOLDOWN_MS) return;
+    ultimoMovimento = agora;
+
+    obterAncora();
+
+    const rect = btnNao.getBoundingClientRect();
+    const mouseX = event?.clientX ?? rect.left + rect.width / 2;
+    const mouseY = event?.clientY ?? rect.top + rect.height / 2;
+    const { x, y } = calcularDeslocamento(mouseX, mouseY);
+
     btnNao.style.transform = `translate(${x}px, ${y}px)`;
     btnNao.textContent = MENSAGENS_NAO[indiceMensagem % MENSAGENS_NAO.length];
-    indiceMensagem++;
+    indiceMensagem += 1;
   }
+
+  function verificarProximidade(event) {
+    if (questionBlock.hidden) return;
+
+    const mouseX = event.clientX;
+    const mouseY = event.clientY;
+    if (!Number.isFinite(mouseX) || !Number.isFinite(mouseY)) return;
+    if (!cursorPertoDoBotao(mouseX, mouseY)) return;
+
+    moverNao(event);
+  }
+
+  document.addEventListener("mousemove", (event) => {
+    if (questionBlock.hidden) return;
+    if (rafProximidade) return;
+
+    rafProximidade = requestAnimationFrame(() => {
+      rafProximidade = null;
+      verificarProximidade(event);
+    });
+  });
 
   btnNao.addEventListener("mouseenter", moverNao);
   btnNao.addEventListener("focus", moverNao);
   btnNao.addEventListener("touchstart", (event) => {
     event.preventDefault();
+    const toque = event.touches[0];
+    if (toque) {
+      moverNao(toque);
+      return;
+    }
     moverNao();
-  });
+  }, { passive: false });
 
   btnSim.addEventListener("click", () => {
     questionBlock.hidden = true;
