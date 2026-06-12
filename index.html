@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Uma cartinha pro nenê" />
+    <meta name="theme-color" content="#3d1528" />
+    <title>Cartinha pro nenê</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Nunito:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="hearts" id="hearts" aria-hidden="true"></div>
+
+    <main class="app">
+      <section id="intro">
+        <h1 id="tituloEnvelope">Oi, coisa linda</h1>
+        <p class="subtitle" id="subtituloEnvelope">Abre aí!</p>
+
+        <button
+          class="envelope-wrap"
+          id="openEnvelope"
+          type="button"
+          aria-label="Abrir carta de amor"
+        >
+          <div class="envelope" id="envelope">
+            <div class="envelope-flap"></div>
+            <div class="letter-peek"></div>
+          </div>
+        </button>
+        <p class="tap-hint">Toque no envelope para abrir</p>
+      </section>
+
+      <section class="letter-screen" id="letter" aria-label="Carta de amor">
+        <article class="card">
+          <h2 id="tituloCarta">Minha Namorada (vai virar esposa oficialmente logo JURO)</h2>
+
+          <img id="fotoCasal" class="card-photo" hidden alt="" />
+
+          <div id="paragrafos"></div>
+
+          <p>Topicos importantississimos pra mim sobre a gnt:</p>
+          <ul class="reasons" id="motivos"></ul>
+
+          <div class="question-block" id="questionBlock">
+            <p class="question-text" id="pergunta">
+              Você aceita continuar sendo a mulher da minha vida?
+            </p>
+            <div class="buttons">
+              <button class="btn-yes" id="btnSim" type="button">Claro que sim! 💕</button>
+              <button class="btn-no" id="btnNao" type="button">Hmm... não</button>
+            </div>
+          </div>
+
+          <div class="final" id="final">
+            <p class="big" id="mensagemFinal">Eu sabia! Te amo demais.</p>
+            <p id="mensagemFinalExtra">
+              Obrigado por cada dia ao seu lado. Você é meu presente.
+            </p>
+            <p class="signature" id="assinatura">— VSFD eu te amo</p>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>

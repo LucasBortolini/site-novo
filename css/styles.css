@@ -1,0 +1,333 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-dark: #1a0a12;
+  --bg-mid: #3d1528;
+  --bg-light: #6b2d4a;
+  --card-bg: rgba(255, 245, 248, 0.96);
+  --text-dark: #3d1528;
+  --accent: #c44569;
+  --accent-light: #e84a7a;
+  --envelope: #f8d7e3;
+  --envelope-flap: #e89ab5;
+  --envelope-top: #f3b8cc;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  font-family: "Nunito", system-ui, sans-serif;
+  background: linear-gradient(160deg, var(--bg-dark) 0%, var(--bg-mid) 45%, var(--bg-light) 100%);
+  color: #fff5f8;
+  overflow-x: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}
+
+.hearts {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.heart {
+  position: absolute;
+  bottom: -2rem;
+  font-size: 1rem;
+  opacity: 0.35;
+  animation: float-up linear infinite;
+}
+
+@keyframes float-up {
+  from {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.4;
+  }
+  to {
+    transform: translateY(-110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.app {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+h1 {
+  font-family: "Dancing Script", cursive;
+  font-size: clamp(2rem, 8vw, 2.8rem);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.subtitle {
+  opacity: 0.9;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+.envelope-wrap {
+  cursor: pointer;
+  margin: 0 auto 1rem;
+  width: min(280px, 85vw);
+  transition: transform 0.3s ease;
+  border: none;
+  background: none;
+  padding: 0;
+  display: block;
+}
+
+.envelope-wrap:hover {
+  transform: scale(1.03);
+}
+
+.envelope-wrap:active {
+  transform: scale(0.98);
+}
+
+.envelope-wrap:focus-visible {
+  outline: 2px solid #fff5f8;
+  outline-offset: 6px;
+  border-radius: 8px;
+}
+
+.envelope {
+  position: relative;
+  height: 180px;
+  background: var(--envelope);
+  border-radius: 8px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.envelope::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  border-top: 90px solid var(--envelope-top);
+  border-radius: 8px 8px 0 0;
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  border-bottom: 90px solid var(--envelope-flap);
+  transform-origin: top center;
+  transition: transform 0.6s ease;
+  z-index: 2;
+}
+
+.envelope.open .envelope-flap {
+  transform: translateX(-50%) rotateX(180deg);
+}
+
+.letter-peek {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75%;
+  height: 60px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.6s ease 0.2s;
+}
+
+.envelope.open .letter-peek {
+  transform: translateX(-50%) translateY(-70px);
+}
+
+.tap-hint {
+  font-size: 0.85rem;
+  opacity: 0.75;
+  margin-top: 0.75rem;
+}
+
+.letter-screen {
+  display: none;
+  animation: fade-in 0.8s ease;
+}
+
+.letter-screen.show {
+  display: block;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  background: var(--card-bg);
+  color: var(--text-dark);
+  border-radius: 16px;
+  padding: 1.5rem 1.25rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  text-align: left;
+}
+
+.card h2 {
+  font-family: "Dancing Script", cursive;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--accent);
+}
+
+.card p {
+  line-height: 1.65;
+  margin-bottom: 0.85rem;
+  font-size: 0.98rem;
+}
+
+.card-photo {
+  width: 100%;
+  height: auto;
+  max-height: 380px;
+  border-radius: 12px;
+  margin: 0.5rem 0 1rem;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+}
+
+.reasons {
+  list-style: none;
+  margin: 1rem 0;
+}
+
+.reasons li {
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed #e8b4c8;
+  font-size: 0.95rem;
+}
+
+.reasons li::before {
+  content: "♥ ";
+  color: var(--accent);
+}
+
+.question-block {
+  margin-top: 0.5rem;
+}
+
+.question-text {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.85rem 1.25rem;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  min-height: 48px;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+.btn-yes {
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  color: white;
+  box-shadow: 0 8px 20px rgba(196, 69, 105, 0.4);
+}
+
+.btn-no {
+  background: #f0e0e6;
+  color: var(--bg-mid);
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.final {
+  display: none;
+  text-align: center;
+  margin-top: 1rem;
+  animation: fade-in 0.6s ease;
+}
+
+.final.show {
+  display: block;
+}
+
+.final .big {
+  font-family: "Dancing Script", cursive;
+  font-size: 2.2rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.final .signature {
+  margin-top: 1rem;
+  font-style: italic;
+  opacity: 0.85;
+}
+
+@media (min-width: 480px) {
+  .buttons {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  button {
+    min-width: 140px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
